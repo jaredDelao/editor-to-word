@@ -4,12 +4,10 @@ import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import * as DecoupledEditor from '@ckeditor/ckeditor5-build-decoupled-document';
 import ExportWord from '@ckeditor/ckeditor5-export-word/src/exportword';
 import { AngularEditorConfig } from '@kolkov/angular-editor';
-import * as htmlDocx from 'html-docx-js/dist/html-docx'; 
+import * as htmlDocx from 'html-docx-js/dist/html-docx';
+import * as mammoth from 'mammoth';
 import { saveAs } from 'file-saver';
 
-
-
-// declare const saveDocument: any;
 
 @Component({
   selector: 'app-root',
@@ -66,6 +64,9 @@ export class AppComponent implements OnInit, AfterViewInit {
       },
     ]
   };
+
+  constructor() {
+  }
 
   ngOnInit() {
   }
@@ -141,6 +142,50 @@ export class AppComponent implements OnInit, AfterViewInit {
     
   }
 
+  converter(inputElement) {
+    console.log(inputElement);
+    
+      var files = inputElement.srcElement.files || [];
+      if (!files.length) return;
+      var file = files[0];
+
+      console.log(file);
+      
+  
+      let reader = new FileReader();
+      reader.onloadend = (event) => {
+        let arrayBuffer = reader.result;
+        // debugger
+  
+        mammoth.convertToHtml({arrayBuffer: arrayBuffer}).then((resultObject) => {
+          // result1.innerHTML = resultObject.value
+          console.log(resultObject.value)
+          this.htmlContent = resultObject.value;
+        })
+  
+        // mammoth.extractRawText({arrayBuffer: arrayBuffer}).then(function (resultObject) {
+        //   result2.innerHTML = resultObject.value
+        //   console.log(resultObject.value)
+        // })
+  
+        // mammoth.convertToMarkdown({arrayBuffer: arrayBuffer}).then(function (resultObject) {
+        //   result3.innerHTML = resultObject.value
+        //   console.log(resultObject.value)
+        // })
+      };
+      reader.readAsArrayBuffer(file);
+  }
+
 
   
+
+  // mammoth.convertToHtml({path: "src/assets/title.docx"})
+  //   .then(function(result){
+      
+  //     var html = result.value; // The generated HTML 
+  //     console.log(html);
+  //     var messages = result.messages; // Any messages, such as warnings during conversion 
+
+  //   })
+  //   .done();
 }
