@@ -39,9 +39,9 @@ export class AppComponent implements OnInit, AfterViewInit {
   config: AngularEditorConfig = {
     editable: true,
     spellcheck: true,
-    height: '15rem',
-    minHeight: '5rem',
-    placeholder: 'Enter text here...',
+    height: '80vh',
+    // minHeight: '5rem',
+    placeholder: '',
     translate: 'no',
     defaultParagraphSeparator: 'p',
     defaultFontName: 'Arial',
